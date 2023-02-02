@@ -21,7 +21,8 @@ RUN Invoke-WebRequest -Method Get -Uri https://windows.php.net/downloads/release
     Rename-Item -Path "c:\php\php.ini-development" -NewName "php.ini"
 
 # To create C:\www directory
-RUN New-Item -Type Directory c:\www -Force
+RUN New-Item -Type Directory c:\www -Force ; \
+    Add-Content -Value "<?php phpinfo(); ?>" -Path c:\www\index.php
 
 WORKDIR /Apache24/bin
 
