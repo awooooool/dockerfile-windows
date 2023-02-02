@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
 LABEL Description="Apache-PHP" Vendor1="Apache Software Foundation" Version1="2.4.55" Vendor2="The PHP Group" Version2="7.4.33"
 
+# Use PowerShell as default RUN command
 SHELL ["powershell", "-Command"]
 
 # Download Apache 2.4.55 x86 and remove httpd.conf in favor of the one in host
