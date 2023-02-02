@@ -4,10 +4,11 @@ LABEL Description="Apache-PHP" Vendor1="Apache Software Foundation" Version1="2.
 
 SHELL ["powershell", "-Command"]
 
-# Download Apache 2.4.55 x86
+# Download Apache 2.4.55 x86 and remove httpd.conf in favor of the one in host
 RUN Invoke-WebRequest -Method Get -Uri https://www.apachehaus.com/downloads/httpd-2.4.55-o111s-x86-vs17.zip -OutFile c:\apache.zip ; \
 	Expand-Archive -Path c:\apache.zip -DestinationPath c:\ ; \
-	Remove-Item c:\apache.zip -Force
+	Remove-Item c:\apache.zip -Force ; \
+    Remove-Item c:\Apache24\conf\httpd.conf
 
 # Download Visual C++ Redist 17
 RUN Invoke-WebRequest -Method Get -Uri "https://aka.ms/vs/17/release/vc_redist.x86.exe" -OutFile c:\vc_redist.x64.exe ; \
@@ -25,5 +26,6 @@ RUN New-Item -Type Directory c:\www -Force ; \
     Add-Content -Value "<?php phpinfo(); ?>" -Path c:\www\index.php
 
 WORKDIR /Apache24/bin
+COPY conf/httpd.conf /Apache24/conf
 
 CMD /Apache24/bin/httpd.exe -w
